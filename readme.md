@@ -13,7 +13,7 @@ We'll be using an existing application that includes two models, several routes,
 * Fork and clone this repository
 * Run `npm install` to install dependencies
 * Setup your database (this app already has two existing models)
-  * Run `createdb blogpulse_dev` to create the database
+  * Run `sequelize db:create` to create the database
   * Run `sequelize db:migrate` to run migrations
   * Run `sequelize db:seed:all` to populate the database with 2 authors and 2 articles
 * Use `npx nodemon` (or just `nodemon` if you installed it globally) to start your application
@@ -60,43 +60,50 @@ Once this model has been created, **add the associations between comments the ar
 **models/article.js**
 
 ```js
-'use strict'
+'use strict';
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  const article = sequelize.define('article', {
+  class article extends Model {
+    static associate(models) {
+      models.article.belongsTo(models.author)
+    }
+  };
+  article.init({
     title: DataTypes.STRING,
     content: DataTypes.TEXT,
     authorId: DataTypes.INTEGER
-  }, {})
-  article.associate = function(models) {
-    // associations can be defined here
-    models.article.belongsTo(models.author)
-  }
-  return article
-}
-```
+  }, {
+    sequelize,
+    modelName: 'article',
+  });
+  return article;
+};```
 
 **models/author.js**
 
 ```js
-'use strict'
+'use strict';
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  const author = sequelize.define('author', {
+  class author extends Model {
+    static associate(models) {
+      models.author.hasMany(models.article)
+    }
+  };
+  author.init({
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     bio: DataTypes.TEXT
-  }, {})
-
-  author.associate = function(models) {
-    // associations can be defined here
-    models.author.hasMany(models.article)
-  }
-
-  author.prototype.getFullName = function(){
-    return this.firstName + ' ' + this.lastName
-  }
-  return author
-}
-
+  }, {
+    sequelize,
+    modelName: 'author',
+  });
+  return author;
+};
 ```
 
 Go ahead and associate your new comments model and the existing article model in a similar fashion. This is a one to many relationship. One article can have many comments, but each comment belongs to a single article.

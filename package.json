@@ -19,8 +19,8 @@
     "express-ejs-layouts": "^2.1.0",
     "moment": "^2.13.0",
     "morgan": "^1.7.0",
-    "pg": "^7.9.0",
+    "pg": "^8.5.1",
     "rowdy-logger": "0.0.2",
-    "sequelize": "^5.22.0"
+    "sequelize": "^6.3.5"
   }
 }
