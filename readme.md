@@ -117,14 +117,17 @@ Now, run the migration for the model and test the model's functionality. This ca
 ```js
 const db = require('./models')
 
-db.comment.create({
-  name: 'Paul Allen',
-  content: 'This is really neat! Thanks for posting.',
-  articleId: 1
-})
-.then(function(comment) {
-  console.log(comment.get())
-})
+async function dbTest() {
+  const article = await db.article.findOne()
+  const comment = await db.comment.create({
+    name: 'Paul Allen',
+    content: 'This is really neat! Thanks for posting.',
+    articleId: article.id
+  })
+  console.log(comment)
+}
+
+dbTest()
 ```
 
 Be sure to also test querying comments off of articles, which should verify that the association exists. Here's an example, once you've created a comment:
@@ -132,13 +135,15 @@ Be sure to also test querying comments off of articles, which should verify that
 ```js
 const db = require('./models')
 
-db.article.findOne({
-  where: { id: 1 },
-  include: [db.comment]
-}).then(function(article) {
+async function test() {
+  const article = await db.article.findOne({
+    where: { id: 1 },
+    include: [db.comment]
+  })
   // by using eager loading, the article model should have a comments key
   console.log(article.comments)
-})
+}
+test()
 ```
 
 #### Part 2: Integrate the model with the app
