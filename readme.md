@@ -29,10 +29,8 @@ After setup, **STOP**. You're using an existing application, so make sure to rea
 | GET | `/` | home page that lists all articles |
 | GET | `/authors` | authors page that lists all authors |
 | POST | `/authors` | creates a new author, then redirects back to `GET /authors` |
-| GET | `/authors/new` | page that has a form for creating a new author |
 | GET | `/authors/:id` | page that shows a specific author and their articles |
 | POST | `/articles` | creates a new article, then redirects back to `GET /` |
-| GET | `/articles/new` | page that has a form for creating a new article |
 | GET | `/articles/:id` | page that shows a specific article and the author |
 
 #### Models

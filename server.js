@@ -104,6 +104,11 @@ app.get('/articles/:id', async (req, res) => {
   }
 })
 
+// controllers
+app.use('/comments', require('./controllers/comments'))
+app.use('/authors', require('./controllers/authors'))
+app.use('/articles', require('./controllers/articles'))
+
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`)
   rowdyResults.print()
