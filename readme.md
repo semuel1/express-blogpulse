@@ -6,9 +6,9 @@ To practice 1:M associations, we'll be adding comment functionality to an existi
 
 Congrats! You have been hired by BlogPulse, an up-and-coming blog marketed as a local version of [Buzzfeed](https://www.buzzfeed.com/). Through BlogPulse, anyone can sign up to become a contributor, and contributors can create articles relating to issues and events in the Puget Sound area. However, we need you to add comment functionality to this site.
 
-## Getting Started
+## Getting Started (We do)
 
-We'll be using an existing application that includes two models, several routes, and several views.
+We'll be using an existing application that includes two models and several routes.
 
 * Fork and clone this repository
 * Run `npm install` to install dependencies
@@ -20,7 +20,7 @@ We'll be using an existing application that includes two models, several routes,
 
 #### Read the Code
 
-After setup, **STOP**. You're using an existing application, so make sure to read the code and ensure what the application does. Here is some information about the current setup.
+After setup, **STOP**. You're using an existing application, so make sure to read the code and ensure what the application does. Here are the resource documents the last backend engineer has provided:
 
 #### Routes
 
@@ -33,6 +33,8 @@ After setup, **STOP**. You're using an existing application, so make sure to rea
 | POST | `/articles` | creates a new article, then redirects back to `GET /` |
 | GET | `/articles/:id` | page that shows a specific article and the author |
 
+[Here](https://www.getpostman.com/collections/4b0b072492cd2c8bb22a) is a link to the postman.app collection the last engineer was using to test the API routes.
+
 #### Models
   
   * `author`
@@ -42,73 +44,153 @@ After setup, **STOP**. You're using an existing application, so make sure to rea
     * Attributes: `title`, `content`, `authorId`
     * Associations: Belongs to one author
 
+#### Database ERD:
+
+![Database ERD](ERD.png)
+
 ## User Stories
 
 * As a user, I want to comment on an article in order to express my opinions.
 * As a user, I want to view comments on an article in order to see my community's opinions about an article.
 
-## Requirements
+## Requirements 
 
-#### Part 1: Create a Comment model
+### Part 1: Planning (We do)
 
-In order to add comments, create a Sequelize model to store comments. It's recommended that you name this model `comment`. It will store three attributes: the name of the person creating the comment (as a string), the content of the comment (as text), and the article that the comment belongs to (as an integer)
+Before you start slinging any code, you need to plan out how do develop theses new features.
 
-Once this model has been created, **add the associations between comments the articles**. This may look similar to how Authors and Articles are related in the existing code in this app. Note the associate section in the models for both `article` and `author`.
+* Create an **ERD** that reflects the database schema and plan out how to factor a `comments` table into it. 
+  * It's recommended that you plan to name this table `comments` and the associated sequelize model `comment`. 
+  * It will store three attributes: the name of the person creating the comment (as a string), the content of the comment (as text), and the article that the comment belongs to (as an integer)
+* Create a spreadsheet/resource document of the routes you will need to implement and the controllers they will use. Follow **RESTful routing** best practices.
+  * Think about what route you will need to add a comment. What controller does it belong in?
+  * From a user's perspeciive consider when you should display an article's comments. Do you need a new route for this, or can you modify an existing one?
+* Notice how `server.js` is sloppy and not using `express.Router()` to manage controllers. You will need to refactor this API into a scalable codebase before adding any new features. 
+  *Plan out this controller refactor in your **RESTful routing** resource document as well.
 
-**models/article.js**
+### Part 2: Implement codebase refactors (You do)
 
-```js
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class article extends Model {
-    static associate(models) {
-      models.article.belongsTo(models.author)
-    }
+Following the **RESTful routing** resource document, implement the controller refactor and stub out any new routes for testing.
+
+<details>
+  <summary>Help I'm stuck on making the new controllers!</summary>
+
+  create your controllers folders and make js file for each controller you need with this controller boilerplate:
+
+  ```javascript
+  // instantiate the express router
+  const router = require('express').Router()
+  // require models
+  const db = require('../models')
+
+  // routes should be mounted on the router here
+
+  // export the router so we can require in server.js
+  module.exports = router
+  ```
+
+  don't forget to tell express to use the controller in server.js!
+
+  ```javascript
+  // tells express what the URL path is and where to look for the routes
+  app.use('/resource', require('./controllers/resource.js'))
+  ```
+
+</details>
+
+<details>
+  <summary>My controllers still don't work!</summary>
+
+  when refactoring a route into a controller don't forget to mount the route on the `router` and update the route's path!
+
+  this:
+
+  ```javascript
+  app.get('/resources', (req, res) => {
+    res.send('you hit the /resources endpoint!')
+  })
+  ```
+
+  becomes this:
+
+  ```javascript
+    router.get('/', (req, res) => {
+    res.send('you hit the /resources endpoint!')
+  })
+  ```
+
+  Why though?
+
+  Becasue this line of code in `server.js` tells express to look in the `./controllers/resource.js` file and put the URL path `/resources` in front of all of the routes it finds.
+
+  ```javascript
+  // tells express what the URL path is and where to look for the routes
+  app.use('/resources', require('./controllers/resource.js'))
+  ```
+
+</details>
+
+#### *What does stubbing a route mean?*
+
+Remember function stubbing from unit 1? Route stubbing is the same process, but with express routes.
+
+<details>
+  <summary>What does a route stub look like?</summary>
+
+  an express route stub just needs to recieve a request on the desired path and repond with a test message:
+
+  ```javascript
+  app.get('/resources', (req, res) => {
+    res.send('you hit the /resources endpoint!')
+  })
+  ```
+
+</details>
+
+### Part 3: Create a Comment model
+
+Following your **ERD** plans, create your sequelize model for comments.
+  * after your model is created, don't forget to migrate!
+  * once you have migrated the model, you can use the `psql` shell to check that everything has gone correctly.
+
+Once your model has been created, **add the associations between comments the articles**. This will look similar to how authors and articles are related in the existing code in this app. Note the associate section in the models for both `article.js` and `author.js`.
+
+Go ahead and associate your new comments model and the existing article model in a similar fashion. 
+
+Remember: *This is a one to many relationship.* One article can have many comments, but each comment belongs to a single article.
+
+<details>
+  <summary>Help! I'm not sure how to associate the models!</summary>
+
+  One article has many comments, and more than one associate is totally fine!
+
+  ```javascript
+  // in article.js
+  static associate(models) {
+    // define association here
+    models.article.belongsTo(models.author)
+    models.article.hasMany(models.comment)
+  }
   };
-  article.init({
-    title: DataTypes.STRING,
-    content: DataTypes.TEXT,
-    authorId: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'article',
-  });
-  return article;
-};```
+  ```
 
-**models/author.js**
+  And a comment will belong to an article:
 
-```js
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class author extends Model {
-    static associate(models) {
-      models.author.hasMany(models.article)
-    }
-  };
-  author.init({
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    bio: DataTypes.TEXT
-  }, {
-    sequelize,
-    modelName: 'author',
-  });
-  return author;
-};
-```
+  ```javascript
+  // in comment.js
+  static associate(models) {
+    // define association here
+    models.comment.belongsTo(models.article)
+  }
+  ```
 
-Go ahead and associate your new comments model and the existing article model in a similar fashion. This is a one to many relationship. One article can have many comments, but each comment belongs to a single article.
+</details>
 
 ### Create a comment
 
-Now, run the migration for the model and test the model's functionality. This can be done in a separate file. An example:
+**Testing time!** 
+
+test the model's functionality. This can be done in a separate file. An example:
 
 **dbTest.js**
 
@@ -149,31 +231,23 @@ test()
 Now that the model has been created, you'll want to add the ability to create and view comments to the rest of the application. Here is an approach that can be taken:
 
 * Add the ability to view comments on `GET /articles/:id`.
-  * See the example above on how to include the comments, then use EJS to render each comment's information on the page. Make sure you have a comment in the database you can use to verify this functionality.
-* On the same page (`GET /articles/:id`), create a form to submit a new comment. Note that we don't *necessarily* need to render a form on a separate page - most sites have a comment form on the same page.
+  * See the example above on how to include the comments, then include comments in your database query. Make sure you have a comment in the database you can use to verify this functionality.
   * Include the necessary attributes, `name` and `content`. Feel free to look at the forms for authors and articles as examples.
-  * Create a new route to receive this form data. This will be the action for your form. You could either make a separate comments controller at `POST /comments`, (especially good if you plan on having more comments-related routes in the future) or you could define the route in the articles controller since comments are related to articles `POST /articles/:id/comments`. This implementation detail is up to you. Note how we're passing the article id in each case - in the form body in the first example vs a param (part of the URL) in the second one.
+  * Create a new route to receive form data about a new comment. You could either make a separate comments controller at `POST /comments`, (especially good if you plan on having more comments-related routes in the future) or you could define the route in the articles controller since comments are related to articles `POST /articles/:id/comments`. This implementation detail is up to you. Note how we're passing the article id in each case - in the form body in the first example vs a param (part of the URL) in the second one.
     * Test the route by using your form 
     * Once you've verified the route is working, redirect back to the article that was commented on for a completely smooth user experience.
 * Verify functionality by creating more authors, articles, and comments. Pay attention to the user experience, and make sure the user can navigate between articles, authors, and comments.
 
-#### Part 3: Styling
-
-When finished with the above, style the application appropriately with CSS. Use other media and blog sites as examples.
-
 ## Bonuses
 
-* Add the ability to edit articles
-* Instead of redirecting to `/authors/new` to create a new author, have the form appear using a Bootstrap modal.
-* Add the ability to create rich text articles and comments using Markdown.
-  * Front-end Bootstrap Markdown editor
-  * A markdown parser for your EJS templates
+* Add the ability to edit and delete articles
+* Add the ability to edit and delete comments
 
 ## Deliverables
 
 Here's an example screenshot of the article page, complete with comments. Your finished deliverable will differ and include the desired functionality.
 
-![Example Comments](./example-comments.jpg)
+![Example Comments](./example-comments.png)
 
 ---
 
