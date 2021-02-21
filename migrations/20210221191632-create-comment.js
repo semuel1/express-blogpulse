@@ -11,6 +11,9 @@ module.exports = {
       articleId: {
         type: Sequelize.INTEGER
       },
+      name: {
+        type: Sequelize.STRING
+      },
       content: {
         type: Sequelize.TEXT
       },

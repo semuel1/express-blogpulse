@@ -29,7 +29,6 @@ app.get('/', async (req, res) => {
 })
 
 // controllers
-app.use('/comments', require('./controllers/comments'))
 app.use('/authors', require('./controllers/authors'))
 app.use('/articles', require('./controllers/articles'))
 
