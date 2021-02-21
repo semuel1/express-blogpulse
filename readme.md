@@ -13,6 +13,7 @@ We'll be using an existing application that includes two models and several rout
 * Fork and clone this repository
 * Run `npm install` to install dependencies
 * Setup your database (this app already has two existing models)
+  * Run `sequelize init:config` and update the config file
   * Run `sequelize db:create` to create the database
   * Run `sequelize db:migrate` to run migrations
   * Run `sequelize db:seed:all` to populate the database with 2 authors and 2 articles
@@ -72,12 +73,28 @@ Before you start slinging any code, you need to plan out how do develop theses n
 
 Following the **RESTful routing** resource document, implement the controller refactor and stub out any new routes for testing.
 
+#### *What does stubbing a route mean?*
+
+Remember function stubbing from unit 1? Route stubbing is the same process, but with express routes.
+
+<details>
+  <summary>What does a route stub look like?</summary>
+
+  an express route stub just needs to recieve a request on the desired path and repond with a test message:
+
+  ```js
+  app.get('/resources', (req, res) => {
+    res.send('you hit the /resources endpoint!')
+  })
+  ```
+</details>
+
 <details>
   <summary>Help I'm stuck on making the new controllers!</summary>
 
   create your controllers folders and make js file for each controller you need with this controller boilerplate:
 
-  ```javascript
+  ```js
   // instantiate the express router
   const router = require('express').Router()
   // require models
@@ -91,11 +108,10 @@ Following the **RESTful routing** resource document, implement the controller re
 
   don't forget to tell express to use the controller in server.js!
 
-  ```javascript
+  ```js
   // tells express what the URL path is and where to look for the routes
   app.use('/resource', require('./controllers/resource.js'))
   ```
-
 </details>
 
 <details>
@@ -105,7 +121,7 @@ Following the **RESTful routing** resource document, implement the controller re
 
   this:
 
-  ```javascript
+  ```js
   app.get('/resources', (req, res) => {
     res.send('you hit the /resources endpoint!')
   })
@@ -113,8 +129,8 @@ Following the **RESTful routing** resource document, implement the controller re
 
   becomes this:
 
-  ```javascript
-    router.get('/', (req, res) => {
+  ```js
+  router.get('/', (req, res) => {
     res.send('you hit the /resources endpoint!')
   })
   ```
@@ -123,28 +139,10 @@ Following the **RESTful routing** resource document, implement the controller re
 
   Becasue this line of code in `server.js` tells express to look in the `./controllers/resource.js` file and put the URL path `/resources` in front of all of the routes it finds.
 
-  ```javascript
+  ```js
   // tells express what the URL path is and where to look for the routes
   app.use('/resources', require('./controllers/resource.js'))
   ```
-
-</details>
-
-#### *What does stubbing a route mean?*
-
-Remember function stubbing from unit 1? Route stubbing is the same process, but with express routes.
-
-<details>
-  <summary>What does a route stub look like?</summary>
-
-  an express route stub just needs to recieve a request on the desired path and repond with a test message:
-
-  ```javascript
-  app.get('/resources', (req, res) => {
-    res.send('you hit the /resources endpoint!')
-  })
-  ```
-
 </details>
 
 ### Part 3: Create a Comment model
@@ -164,26 +162,24 @@ Remember: *This is a one to many relationship.* One article can have many commen
 
   One article has many comments, and more than one associate is totally fine!
 
-  ```javascript
+  ```js
   // in article.js
   static associate(models) {
     // define association here
     models.article.belongsTo(models.author)
     models.article.hasMany(models.comment)
   }
-  };
   ```
 
   And a comment will belong to an article:
 
-  ```javascript
+  ```js
   // in comment.js
   static associate(models) {
     // define association here
     models.comment.belongsTo(models.article)
   }
   ```
-
 </details>
 
 ### Create a comment
@@ -245,7 +241,7 @@ Now that the model has been created, you'll want to add the ability to create an
 
 ## Deliverables
 
-Here's an example screenshot of the article page, complete with comments. Your finished deliverable will differ and include the desired functionality.
+Here's an example screenshot of a comment. Your finished deliverable will differ and include the desired functionality.
 
 ![Example Comments](./example-comments.png)
 
