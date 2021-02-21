@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: false }))
  * home route
  */
 
-// GET / - display all articles and their authors
+// GET / - READ all articles and include authors
 app.get('/', async (req, res) => {
   try {
     const articles = await db.article.findAll({ include: [db.author] })
@@ -32,7 +32,7 @@ app.get('/', async (req, res) => {
  * /authors routes
  */
 
-// GET /authors - display all authors
+// GET /authors - READ all authors
 app.get('/authors', async (req, res) => {
   try {
     const authors = await db.author.findAll()
@@ -43,7 +43,7 @@ app.get('/authors', async (req, res) => {
   }
 })
 
-// POST /authors - create a new author
+// POST /authors - CREATE a new author
 app.post('/authors', async (req, res) => {
   try {
     await db.author.create({
@@ -58,7 +58,7 @@ app.post('/authors', async (req, res) => {
   }
 })
 
-// GET /authors/:id - display a specific author and their posts
+// GET /authors/:id - READ a specific author and inlcude their posts
 app.get('/authors/:id', async (req, res) => {
   try {
     const author = await db.author.findOne({
@@ -76,7 +76,7 @@ app.get('/authors/:id', async (req, res) => {
  * /articles routes
  */
 
-// POST /articles - create a new post
+// POST /articles - CREATE a new post
 app.post('/articles', async (req, res) => {
   try {
     await db.article.create({
@@ -90,7 +90,7 @@ app.post('/articles', async (req, res) => {
   }
 })
 
-// GET /articles/:id - display a specific post and its author
+// GET /articles/:id - READ a specific post and include its author
 app.get('/articles/:id', async (req, res) => {
   try {
     const article = await db.article.findOne({
@@ -108,5 +108,3 @@ app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`)
   rowdyResults.print()
 })
-
-
