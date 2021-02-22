@@ -151,7 +151,7 @@ Following your **ERD** plans, create your sequelize model for comments.
   * after your model is created, don't forget to migrate!
   * once you have migrated the model, you can use the `psql` shell to check that everything has gone correctly.
 
-Once your model has been created, **add the associations between comments the articles**. This will look similar to how authors and articles are related in the existing code in this app. Note the associate section in the models for both `article.js` and `author.js`.
+After your model has been created, **add the associations between comments the articles**. This will look similar to how authors and articles are related in the existing code in this app. Note the associate section in the models for both `article.js` and `author.js`.
 
 Go ahead and associate your new comments model and the existing article model in a similar fashion. 
 
@@ -227,21 +227,18 @@ test()
 Now that the model has been created, you'll want to add the ability to create and view comments to the rest of the application. Here is an approach that can be taken:
 
 * Add the ability to view comments on `GET /articles/:id`.
-  * See the example above on how to include the comments, then include comments in your database query. Make sure you have a comment in the database you can use to verify this functionality.
-  * Include the necessary attributes, `name` and `content`. Feel free to look at the forms for authors and articles as examples.
-  * Create a new route to receive form data about a new comment. You could either make a separate comments controller at `POST /comments`, (especially good if you plan on having more comments-related routes in the future) or you could define the route in the articles controller since comments are related to articles `POST /articles/:id/comments`. This implementation detail is up to you. Note how we're passing the article id in each case - in the form body in the first example vs a param (part of the URL) in the second one.
-    * Test the route by using your form 
-    * Once you've verified the route is working, redirect back to the article that was commented on for a completely smooth user experience.
-* Verify functionality by creating more authors, articles, and comments. Pay attention to the user experience, and make sure the user can navigate between articles, authors, and comments.
+* Add the ability to make a comment on a specific article at `POST /articles/:id/comments`. Respond with a redirect to `/articles/:id`.
 
 ## Bonuses
 
 * Add the ability to edit and delete articles
 * Add the ability to edit and delete comments
 
-## Deliverables
+what routes will you need to accomplish this? what controller should they go in?
 
-Here's an example screenshot of a comment. Your finished deliverable will differ and include the desired functionality.
+## Example Comment Response
+
+Here's an example screenshot of a comment.
 
 ![Example Comments](./example-comments.png)
 
