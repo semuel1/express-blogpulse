@@ -11,13 +11,14 @@ Congrats! You have been hired by BlogPulse, an up-and-coming blog marketed as a 
 We'll be using an existing application that includes two models and several routes.
 
 * Fork and clone this repository
-* Run `npm install` to install dependencies
+* look in `package-lock.json` to see the packages thi project needs
+  * Run `npm install` to install dependencies
 * Setup your database (this app already has two existing models)
-  * Run `sequelize init:config` and update the config file
+  * look in your config file to see the database name and edit if needed
   * Run `sequelize db:create` to create the database
   * Run `sequelize db:migrate` to run migrations
   * Run `sequelize db:seed:all` to populate the database with 2 authors and 2 articles
-* Use `npx nodemon` (or just `nodemon` if you installed it globally) to start your application
+* use `nodemon` to start your application
 
 #### Read the Code
 
@@ -27,12 +28,12 @@ After setup, **STOP**. You're using an existing application, so make sure to rea
 
 | Method | Path | Purpose |
 | ------ | -------------- | -------------------------------- |
-| GET | `/` | home page that lists all articles |
-| GET | `/authors` | authors page that lists all authors |
-| POST | `/authors` | creates a new author, then redirects back to `GET /authors` |
-| GET | `/authors/:id` | page that shows a specific author and their articles |
-| POST | `/articles` | creates a new article, then redirects back to `GET /` |
-| GET | `/articles/:id` | page that shows a specific article and the author |
+| GET | `/` | index that READS all articles and thier authors |
+| GET | `/authors` | author index that READS all authors |
+| POST | `/authors` | CREATES a new author, then redirects to the new author at `GET /authors/:id` |
+| GET | `/authors/:id` | READS a specific author and their articles |
+| POST | `/authors/:id/articles ` | CREATES a new article, then redirects back to the new article at `GET /articles/:id` |
+| GET | `/articles/:id` | READS a specific article and the author |
 
 [Here](https://www.getpostman.com/collections/dc8731aace792e95b8ef) is a link to the postman.app collection the last engineer was using to test the API routes.
 
@@ -151,7 +152,7 @@ Following your **ERD** plans, create your sequelize model for comments.
   * after your model is created, don't forget to migrate!
   * once you have migrated the model, you can use the `psql` shell to check that everything has gone correctly.
 
-After your model has been created, **add the associations between comments the articles**. This will look similar to how authors and articles are related in the existing code in this app. Note the associate section in the models for both `article.js` and `author.js`.
+Once your model has been created, **add the associations between comments the articles**. This will look similar to how authors and articles are related in the existing code in this app. Note the associate section in the models for both `article.js` and `author.js`.
 
 Go ahead and associate your new comments model and the existing article model in a similar fashion. 
 
@@ -160,7 +161,7 @@ Remember: *This is a one to many relationship.* One article can have many commen
 <details>
   <summary>Help! I'm not sure how to associate the models!</summary>
 
-  One article has many comments, and more than one associate is totally fine!
+  One article has many comments, and more than one association is totally fine!
 
   ```js
   // in article.js
