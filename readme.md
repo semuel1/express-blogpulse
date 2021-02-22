@@ -11,13 +11,14 @@ Congrats! You have been hired by BlogPulse, an up-and-coming blog marketed as a 
 We'll be using an existing application that includes two models and several routes.
 
 * Fork and clone this repository
-* Run `npm install` to install dependencies
+* look in `package-lock.json` to see the packages thi project needs
+  * Run `npm install` to install dependencies
 * Setup your database (this app already has two existing models)
-  * Run `createdb blogpulse_dev` to create the database
-  * Run `sequelize init:config` and update the config file
+  * look in your config file to see the database name and edit if needed
+  * Run `sequelize db:create` to create the database
   * Run `sequelize db:migrate` to run migrations
   * Run `sequelize db:seed:all` to populate the database with 2 authors and 2 articles
-* Use `npx nodemon` (or just `nodemon` if you installed it globally) to start your application
+* use `nodemon` to start your application
 
 #### Read the Code
 
