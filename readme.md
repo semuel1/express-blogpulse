@@ -34,7 +34,7 @@ After setup, **STOP**. You're using an existing application, so make sure to rea
 | POST | `/articles` | creates a new article, then redirects back to `GET /` |
 | GET | `/articles/:id` | page that shows a specific article and the author |
 
-[Here](https://www.getpostman.com/collections/4b0b072492cd2c8bb22a) is a link to the postman.app collection the last engineer was using to test the API routes.
+[Here](https://www.getpostman.com/collections/dc8731aace792e95b8ef) is a link to the postman.app collection the last engineer was using to test the API routes.
 
 #### Models
   
