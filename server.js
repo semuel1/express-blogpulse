@@ -58,7 +58,7 @@ app.post('/authors', async (req, res) => {
   }
 })
 
-// GET /authors/:id - READ a specific author and inlcude their posts
+// GET /authors/:id - READ a specific author and inlcude their articles
 app.get('/authors/:id', async (req, res) => {
   try {
     const author = await db.author.findOne({
@@ -72,23 +72,26 @@ app.get('/authors/:id', async (req, res) => {
   }
 })
 
-/**
- * /articles routes
- */
-
-// POST /articles - CREATE a new post
-app.post('/articles', async (req, res) => {
+// POST /authors/:id/articles - CREATE a new article associated with an author
+app.post('/authors/:id/articles', async (req, res) => {
   try {
-    await db.article.create({
+    const author = await db.author.findByPk(req.params.id, {include: db.article})
+    if(!author) throw new Error('author not found')
+    const article = await db.article.create({
       title: req.body.title,
       content: req.body.content,
-      authorId: req.body.authorId
     })
-    res.redirect('/')
+    await author.addArticle(article)
+    res.redirect(`/authors/${req.params.id}`)
   } catch(error) {
+    console.log(error)
     res.status(400).json({ message: 'bad request' })
   }
 })
+
+/**
+ * /articles routes
+ */
 
 // GET /articles/:id - READ a specific post and include its author
 app.get('/articles/:id', async (req, res) => {
