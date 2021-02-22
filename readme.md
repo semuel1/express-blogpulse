@@ -29,9 +29,9 @@ After setup, **STOP**. You're using an existing application, so make sure to rea
 | ------ | -------------- | -------------------------------- |
 | GET | `/` | index that lists all articles and thier authors |
 | GET | `/authors` | author index that lists all authors |
-| POST | `/authors` | creates a new author, then redirects back to `GET /authors/:id` |
+| POST | `/authors` | creates a new author, then redirects to the new author at `GET /authors/:id` |
 | GET | `/authors/:id` | shows a specific author and their articles |
-| POST | `/articles` | creates a new article, then redirects back to `GET /articles/:id` |
+| POST | `/authors/:id/articles ` | creates a new article, then redirects back to the new article at `GET /articles/:id` |
 | GET | `/articles/:id` | page that shows a specific article and the author |
 
 [Here](https://www.getpostman.com/collections/dc8731aace792e95b8ef) is a link to the postman.app collection the last engineer was using to test the API routes.
