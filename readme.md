@@ -13,8 +13,8 @@ We'll be using an existing application that includes two models and several rout
 * Fork and clone this repository
 * Run `npm install` to install dependencies
 * Setup your database (this app already has two existing models)
+  * Run `createdb blogpulse_dev` to create the database
   * Run `sequelize init:config` and update the config file
-  * Run `sequelize db:create` to create the database
   * Run `sequelize db:migrate` to run migrations
   * Run `sequelize db:seed:all` to populate the database with 2 authors and 2 articles
 * Use `npx nodemon` (or just `nodemon` if you installed it globally) to start your application
