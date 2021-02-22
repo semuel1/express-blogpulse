@@ -46,12 +46,12 @@ app.get('/authors', async (req, res) => {
 // POST /authors - CREATE a new author
 app.post('/authors', async (req, res) => {
   try {
-    await db.author.create({
+    const newAuthor = await db.author.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       bio: req.body.bio
     })
-    res.redirect('/authors')
+    res.redirect(`/authors/${newAuthor.id}`)
   } catch(error) {
     console.log(error)
     res.status(400).json({ message: 'bad request' })
