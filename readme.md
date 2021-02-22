@@ -27,12 +27,12 @@ After setup, **STOP**. You're using an existing application, so make sure to rea
 
 | Method | Path | Purpose |
 | ------ | -------------- | -------------------------------- |
-| GET | `/` | index that lists all articles and thier authors |
-| GET | `/authors` | author index that lists all authors |
-| POST | `/authors` | creates a new author, then redirects to the new author at `GET /authors/:id` |
-| GET | `/authors/:id` | shows a specific author and their articles |
-| POST | `/authors/:id/articles ` | creates a new article, then redirects back to the new article at `GET /articles/:id` |
-| GET | `/articles/:id` | page that shows a specific article and the author |
+| GET | `/` | index that READS all articles and thier authors |
+| GET | `/authors` | author index that READS all authors |
+| POST | `/authors` | CREATES a new author, then redirects to the new author at `GET /authors/:id` |
+| GET | `/authors/:id` | READS a specific author and their articles |
+| POST | `/authors/:id/articles ` | CREATES a new article, then redirects back to the new article at `GET /articles/:id` |
+| GET | `/articles/:id` | READS a specific article and the author |
 
 [Here](https://www.getpostman.com/collections/dc8731aace792e95b8ef) is a link to the postman.app collection the last engineer was using to test the API routes.
 
