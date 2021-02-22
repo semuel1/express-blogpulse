@@ -160,7 +160,7 @@ Remember: *This is a one to many relationship.* One article can have many commen
 <details>
   <summary>Help! I'm not sure how to associate the models!</summary>
 
-  One article has many comments, and more than one associate is totally fine!
+  One article has many comments, and more than one association is totally fine!
 
   ```js
   // in article.js
